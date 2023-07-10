@@ -1,0 +1,61 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Edit Data Pengguna
+{% endblock %}
+{% block content %}
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">Edit Data Pengguna</h1>
+        </div>
+
+        <!-- Content Row -->
+
+        <div class="row">
+          <!-- Input Area -->
+          <div class="col-xl-12 col-lg-8">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Edit Data Pengguna</h6>
+              </div>
+
+              <div class="card-body">
+                <div class="card-area">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="mb-3">
+                            <button type="submit" class="btn-custom btn-custom-primary" >Submit</button>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+{% endblock %}
+
+{% block script %}
+<script>
+  {% for msg in messages %}
+  Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      icon: '{{ msg.tags }}',
+      title: '{{ msg }}',
+  });
+  {% endfor %}
+</script>
+
+{% endblock script %}

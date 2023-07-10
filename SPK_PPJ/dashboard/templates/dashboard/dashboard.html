@@ -1,0 +1,300 @@
+{% extends 'dashboard/base.html' %} 
+{% load static %}
+{% block title %}
+Dashboard
+{% endblock title %}
+
+  {% block content %} 
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+          <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+          <i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+        </div>
+
+        {% if user.is_staff %}
+
+        <!-- Content Row -->
+        <div class="row">
+          <!-- Earnings (Monthly) Card Example -->
+          <div class="col-xl-12 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pengguna</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pengguna }}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-user fa-2x text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-secondary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Data Training</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ training }}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Earnings (Monthly) Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Training RPL</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ rpl_training }}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-laptop-code fa-2x text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Earnings (Monthly) Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Training Multimedia</div>
+                    <div class="row no-gutters align-items-center">
+                      <div class="col-auto">
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ mm_training }}</div>
+                      </div>
+                      <div class="col">
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-cube fa-2x text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Requests Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Training Jaringan Komputer</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ jarkom_training }}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-network-wired fa-2x text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-secondary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Hasil Rekomendasi (Data Testing)</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data }}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Earnings (Monthly) Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Testing RPL</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ rpl_testing }}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-laptop-code fa-2x text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Earnings (Monthly) Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Testing Multimedia</div>
+                    <div class="row no-gutters align-items-center">
+                      <div class="col-auto">
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ mm_testing }}</div>
+                      </div>
+                      <div class="col">
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-cube fa-2x text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Requests Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Testing Jaringan Komputer</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ jarkom_testing }}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-network-wired fa-2x text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        
+
+      {% else %}
+
+      <!-- Peminatan RPL Row -->
+      <div class="row">
+        <!-- Area Chart -->
+        <div class="col-xl-12 col-lg-12">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-custom-blue">Peminatan RPL</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <div class="card-area">
+                  <p class="text-dark">Rekayasa Perangkat Lunak (RPL) adalah peminatan yang mempelajari tentang pengembangan, operasi serta pemeliharaan perangkat lunak, meliputi juga metode, bahasa dan alat bantu (teknologi) yang dapat digunakan dalam rekayasa perangkat lunak tersebut. mata kuliah peminatan di RPL meliputi :</p>
+                  <ul class="text-dark">
+                    <li>Data Mining</li>
+                    <li>Sistem Pendukung Keputusan</li>
+                    <li>Robotika</li>
+                  </ul>
+                {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+              </div>
+            </div>
+            
+          </div>
+        </div> 
+      </div>
+
+      <div class="row">
+        <!-- Area Chart -->
+        <div class="col-xl-12 col-lg-12">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-custom-blue">Peminatan Multimedia</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <div class="card-area">
+                  <p class="text-dark">Peminatan Multimedia di program studi Teknik Informatika bertujuan untuk memberikan pemahaman dan keterampilan dalam pengembangan konten multimedia seperti audio, video, animasi, dan grafis komputer. Anda akan mempelajari teknologi dan alat-alat yang digunakan dalam produksi konten multimedia serta aplikasi multimedia di berbagai bidang seperti hiburan, pendidikan, bisnis, dan pemasaran. Selama kursus, Anda akan belajar tentang teknik-teknik editing, pengolahan gambar, desain animasi, dan pemrograman multimedia. Mata kuliah di Multimedia meliputi :</p>
+                  <ul class="text-dark">
+                    <li>Pengolahan Citra Digital</li>
+                    <li>Animasi dan Pemodelan 3D</li>
+                    <li>Teknik Kompresi dan Penyamaran Data</li>
+                  </ul>
+                {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- Peminatan Jaringan Row -->
+      <div class="row">
+        <!-- Area Chart -->
+        <div class="col-xl-12 col-lg-12">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-custom-blue">Peminatan Jaringan Komputer</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <div class="card-area">
+                  <p class="text-dark">Peminatan Jaringan Komputer di program studi Teknik Informatika mempelajari teknologi, protokol, dan arsitektur yang digunakan dalam desain, pengembangan, dan pengelolaan jaringan komputer. Anda akan mempelajari cara menghubungkan perangkat, membangun topologi jaringan, mengoptimalkan kinerja jaringan, dan mengamankan jaringan dari serangan cyber. Selama kursus, Anda juga akan mempelajari teknologi jaringan terkini seperti virtualisasi jaringan, jaringan definisi perangkat lunak (SDN), dan Internet of Things (IoT). Anda akan melakukan praktikum dengan menggunakan perangkat lunak jaringan komputer dan perangkat jaringan seperti router, switch, dan firewall. Peminatan Jaringan Komputer memberikan keterampilan dan pengetahuan yang diperlukan untuk menjadi administrator jaringan, insinyur jaringan, atau arsitek jaringan yang sukses di industri yang berkembang pesat ini. Mata kuliah di Jaringan meliputi :</p>
+                  <ul class="text-dark">
+                    <li>Jaringan Nirkabel</li>
+                    <li>Komputasi Awan</li>
+                    <li>Komputasi Bergerak</li>
+                  </ul>
+                {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+
+      {% endif %}
+
+      
+
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+
+  {% endblock content %}
+  <!-- Content Wrapper -->
+
+  {% block script %}
+  <script>
+    {% for msg in messages %}
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        icon: '{{ msg.tags }}',
+        title: '{{ msg }}',
+        text: 'Welcome to Akademi Application'
+    });
+    {% endfor %}
+  </script>
+  {% endblock script %}
+
+

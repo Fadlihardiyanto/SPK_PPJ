@@ -1,0 +1,61 @@
+{% extends 'dashboard/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block title %} Update Data Training {% endblock title %} {% block content %}
+
+<div>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Tambah Data Training</h1>
+    </div>
+
+    <!-- Content Row -->
+
+    <div class="row">
+      <!-- Area Chart -->
+      <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-custom-blue">Input Data Training</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="card-area">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="csv_file">File CSV</label>
+                  <input class="form-control" type="file" name="csv_file" accept=".csv" />
+                </div>
+                <button type="submit" class="btn-custom btn-custom-primary">Import</button>
+              </form>
+
+              {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+
+{% endblock content %}
+<!-- Content Wrapper -->
+
+{% block script %}
+<script>
+  {% for msg in messages %}
+  Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      icon: '{{ msg.tags }}',
+      title: '{{ msg }}',
+  });
+  {% endfor %}
+</script>
+{% endblock script %}

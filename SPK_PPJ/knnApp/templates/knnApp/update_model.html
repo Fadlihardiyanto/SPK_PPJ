@@ -1,0 +1,106 @@
+{% extends 'dashboard/base.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+Update Data Model
+{% endblock title %}
+
+{% block content %} 
+
+    <div>
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">Update Model</h1>
+        </div>
+
+        <!-- Content Row -->
+
+        <div class="row">
+          <!-- Area Chart -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Update Model</h6>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <div class="card-area">
+                  <p>Default Value adalah 5,  Anda dapat mengubah nilai K menjadi 3, 5, 7 dan 11</p>
+                  <p>Klik tombol "Update" di bawah ini untuk memperbarui model knn.</p>
+                  <form method="POST">
+                      {% csrf_token %}
+                      {{ form|crispy }}
+                      <button type="submit" class="btn-custom btn-custom-primary">Update</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+
+{% endblock content %}
+<!-- Content Wrapper -->
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+$(document).ready(function() {
+    // Menangani klik tombol "Update"
+    $('#updateBtn').click(function() {
+        // Mendapatkan nilai K dari input
+        var kValue = parseInt($('#kValue').val());
+
+        // Mengirim permintaan AJAX ke endpoint update_model dengan nilai K
+        $.ajax({
+            type: 'GET',
+            url: '{% url "updatemodel" %}?k=' + kValue,
+            success: function(response) {
+                // Tampilkan pesan berhasil menggunakan Swal
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Model berhasil diperbarui.',
+                    text: 'Model machine learning telah diperbarui.',
+                    timer: 3000,
+                    showConfirmButton: false
+                }).then(function() {
+                    // Redirect ke halaman Data Training
+                    window.location.href = '{% url "datatraining" %}';
+                });
+            },
+            error: function(xhr, status, error) {
+                // Tampilkan pesan kesalahan menggunakan Swal
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi kesalahan',
+                    text: 'Gagal memperbarui model machine learning.',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+});
+</script>
+
+<script>
+{% for msg in messages %}
+Swal.fire({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    icon: '{{ msg.tags }}',
+    title: '{{ msg }}',
+});
+{% endfor %}
+</script>
+{% endblock script %}

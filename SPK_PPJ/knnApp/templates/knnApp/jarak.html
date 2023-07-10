@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hasil Perhitungan Jarak</title>
+</head>
+<body>
+    <h1>Hasil Perhitungan Jarak</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Peminatan</th>
+                <th>Jarak</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in df_jarak.iterrows %}
+                <tr>
+                    <td>{{ row.1.nim }}</td>
+                    <td>{{ row.1.peminatan }}</td>
+                    <td>{{ row.1.jarak }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,227 @@
+{% extends 'dashboard/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block title %} Data Testing {% endblock title %} {% block content %}
+
+<div>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Data Testing</h1>
+    </div>
+
+    <!-- Content Row -->
+
+    <div class="row">
+      <!-- Area Chart -->
+      <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-custom-blue">Data Testing Nilai Mahasiswa</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <form class="form-inline" action="" method="get">
+                <div class="form-group mx-sm-2 mb-2">{{ MyFilter.form.peminatan|as_crispy_field }}</div>
+                <div class="form-group mx-sm-2 mb-2">{{ MyFilter.form.nim|as_crispy_field }}</div>
+
+                <button class="btn-custom btn-custom-primary m-2" type="submit">Search</button>
+                <a href="{% url 'export_csv' %}" class="btn-custom btn-custom-primary">Export to CSV</a>
+              </form>
+            </div>
+
+            <div class="card-area">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered border-bottom">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Delete</th>
+                      <th scope="col">Tester</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">NIM</th>
+                      <th scope="col">Peminatan</th>
+                      <th scope="col">Algoritma dan Pemrograman</th>
+                      <th scope="col">Aljabar Linier dan Matriks</th>
+                      <th scope="col">Fisika Listrik dan Magnet</th>
+                      <th scope="col">Grafik Komputer</th>
+                      <th scope="col">Kalkulus</th>
+                      <th scope="col">Keamanan Info dan Jaringan</th>
+                      <th scope="col">Kom Data dan Jaringan Komputer</th>
+                      <th scope="col">Logika Informatika</th>
+                      <th scope="col">Manajemen Proyek</th>
+                      <th scope="col">Matematika Diskrit</th>
+                      <th scope="col">Metode Numerik</th>
+                      <th scope="col">Multimedia</th>
+                      <th scope="col">Organisasi dan Arsitektur Komp</th>
+                      <th scope="col">Pemrograman Berorientasi Objek</th>
+                      <th scope="col">Pemrograman Lanjut</th>
+                      <th scope="col">Pemrograman Web</th>
+                      <th scope="col">Pengantar Kriptografi</th>
+                      <th scope="col">Prak. Pemrog Berorientasi Obyek</th>
+                      <th scope="col">Prak. Sistem Basis Data</th>
+                      <th scope="col">Prak. Algoritma dan Pemrograman</th>
+                      <th scope="col">Prak. Pemrog Lanjut</th>
+                      <th scope="col">Prak. Pemrog Web</th>
+                      <th scope="col">Prak. Struktur Data</th>
+                      <th scope="col">RPL</th>
+                      <th scope="col">Sistem Basis Data</th>
+                      <th scope="col">Sistem Digital dan Gelombang</th>
+                      <th scope="col">Sistem Informasi</th>
+                      <th scope="col">Sistem Operasi</th>
+                      <th scope="col">Statistika Probabilitas</th>
+                      <th scope="col">Struktur Data</th>
+                      <th scope="col">Teknik Perancangan Sistem</th>
+                      <th scope="col">Teori Bahasa Automata dan Komp</th>
+                      <th scope="col">Testing dan Implementasi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for testing in rows %}
+                    <tr>
+                      <th>{{ forloop.counter }}</th>
+                      <td>
+                        <a href="#" onclick="confirmDelete('{{ testing.id_testing }}')" class="btn-custom btn-custom-danger">Delete</a>
+                        <form id="delete-form-{{ testing.id_testing }}" action="{% url 'delete_data_testing' testing.id_testing %}" method="post">
+                          {% csrf_token %}
+                          <input type="hidden" name="id_testing" value="{{ testing.id_testing }}" />
+                        </form>
+                      </td>
+                      <td>{{ testing.user.name }}</td>
+                      <td>
+                        {% if testing.user.is_staff == 1 %}
+                            Admin
+                        {% else %}
+                            Mahasiswa
+                        {% endif %}
+                      </td>
+                      <td>{{ testing.nim }}</td>
+                      <td>{{ testing.peminatan }}</td>
+                      <td>{{ testing.Algoritma_dan_Pemrograman|floatformat:2 }}</td>
+                      <td>{{ testing.Aljabar_Linier_dan_Matriks|floatformat:2 }}</td>
+                      <td>{{ testing.Fisika_Listrik_dan_Magnet|floatformat:2}}</td>
+                      <td>{{ testing.Grafik_Komputer|floatformat:2 }}</td>
+                      <td>{{ testing.Kalkulus|floatformat:2 }}</td>
+                      <td>{{ testing.Keamanan_Info_dan_Jaringan|floatformat:2 }}</td>
+                      <td>{{ testing.Kom_Data_dan_Jaringan_Komputer|floatformat:2 }}</td>
+                      <td>{{ testing.Logika_Informatika|floatformat:2 }}</td>
+                      <td>{{ testing.Manajemen_Proyek|floatformat:2 }}</td>
+                      <td>{{ testing.Matematika_Diskrit|floatformat:2 }}</td>
+                      <td>{{ testing.Metode_Numerik|floatformat:2 }}</td>
+                      <td>{{ testing.Multimedia|floatformat:2 }}</td>
+                      <td>{{ testing.Organisasi_dan_Arsitektur_Komp|floatformat:2 }}</td>
+                      <td>{{ testing.Pemrograman_Berorientasi_Obyek|floatformat:2 }}</td>
+                      <td>{{ testing.Pemrograman_Lanjut|floatformat:2 }}</td>
+                      <td>{{ testing.Pemrograman_Web|floatformat:2 }}</td>
+                      <td>{{ testing.Pengantar_Kriptografi|floatformat:2 }}</td>
+                      <td>{{ testing.Prak_Pemrog_Berorient_Obyek|floatformat:2 }}</td>
+                      <td>{{ testing.Prak_Sistem_Basis_Data|floatformat:2 }}</td>
+                      <td>{{ testing.Prak_Algoritma_dan_Pemrograman|floatformat:2 }}</td>
+                      <td>{{ testing.Praktikum_Pemrograman_Lanjut|floatformat:2 }}</td>
+                      <td>{{ testing.Praktikum_Pemrograman_Web|floatformat:2 }}</td>
+                      <td>{{ testing.Praktikum_Struktur_Data|floatformat:2 }}</td>
+                      <td>{{ testing.Rekayasa_Perangkat_Lunak|floatformat:2 }}</td>
+                      <td>{{ testing.Sistem_Basis_Data|floatformat:2 }}</td>
+                      <td>{{ testing.Sistem_Digital_dan_Gelombang|floatformat:2 }}</td>
+                      <td>{{ testing.Sistem_Informasi|floatformat:2 }}</td>
+                      <td>{{ testing.Sistem_Operasi|floatformat:2 }}</td>
+                      <td>{{ testing.Statistika_Probabilitas|floatformat:2 }}</td>
+                      <td>{{ testing.Struktur_Data|floatformat:2 }}</td>
+                      <td>{{ testing.Teknik_Perancangan_Sistem|floatformat:2 }}</td>
+                      <td>{{ testing.Teori_Bahasa_Automata_and_Komp|floatformat:2 }}</td>
+                      <td>{{ testing.Testing_and_Implementation|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr class="text-center">
+                      <td colspan="39">There are no Record Found!</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              {% comment %} pagination {% endcomment %} {% if rows.paginator.num_pages > 1 %}
+              <div class="pagination justify-content-center">
+                <ul class="pagination">
+                  {% if rows.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page=1">&laquo;</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page={{ rows.previous_page_number }}">&lsaquo;</a>
+                  </li>
+                  {% endif %} {% for i in rows.paginator.page_range %} {% if rows.number == i %}
+                  <li class="page-item active-custom">
+                    <a class="page-link" href="#">{{ i }}</a>
+                  </li>
+                  {% elif i > rows.number|add:'-3' and i < rows.number|add:'3' %}
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page={{ i }}">{{ i }}</a>
+                  </li>
+                  {% endif %} {% endfor %} {% if rows.has_next %}
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page={{ rows.next_page_number }}">&rsaquo;</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page={{ rows.paginator.num_pages }}">&raquo;</a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+
+{% endblock content %}
+<!-- Content Wrapper -->
+
+{% block script %}
+<script>
+  {% for msg in messages %}
+  Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      icon: '{{ msg.tags }}',
+      title: '{{ msg }}',
+  });
+  {% endfor %}
+</script>
+
+<script>
+  function confirmDelete(id_testing) {
+    Swal.fire({
+      title: "Hapus Data Testing?",
+      text: "Data yang dihapus tidak bisa dipulihkan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("delete-form-" + id_testing).submit();
+      }
+    });
+  }
+</script>
+{% endblock script %} {% comment %} <!DOCTYPE html>
+<html>
+  <head>
+    <title>Machine Learning App - Result</title>
+  </head>
+  <body>
+    <h1>Hasil Prediksi</h1>
+    <p>Peminatan: {{ peminatan }}</p>
+  </body>
+</html>
+{% endcomment %}

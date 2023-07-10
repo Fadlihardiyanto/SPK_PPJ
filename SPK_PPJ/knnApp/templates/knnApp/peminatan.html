@@ -1,0 +1,164 @@
+{% extends 'dashboard/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block title %} Data Testing {% endblock title %} {% block content %}
+
+<div>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Peminatan</h1>
+    </div>
+
+    <!-- Content Row -->
+
+    <div class="row">
+      <!-- Area Chart -->
+      <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-custom-blue">Peminatan</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <form class="form-inline" action="" method="get">
+                  {% comment %} <div class="form-group mx-sm-2 mb-2">{{ MyFilter.form.peminatan|as_crispy_field }}</div>
+                  <div class="form-group mx-sm-2 mb-2">{{ MyFilter.form.NIM|as_crispy_field }}</div>
+                  <button class="btn-custom btn-custom-primary m-2" type="submit">Search</button>
+   {% endcomment %}
+                  <div class="mb-3">
+                    <a href="{% url 'tambah_peminatan' %}" class="btn-custom btn-custom-primary">
+                      <i class="fas fa-plus"></i>
+                      Tambah Data
+                    </a>
+                  </div>
+                </form>
+              </div>
+            <div class="card-area">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered border-bottom">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">ID Peminatan</th>
+                      <th scope="col">Peminatan</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for peminatan in peminatan_list %}
+                    <tr>
+                        <th>{{ forloop.counter }}</th>
+                        <td>{{ peminatan.id_peminatan }}</td>
+                        <td>{{ peminatan.peminatan }}</td>
+                        <td>
+                            <a href="{% url 'edit_peminatan' peminatan.id_peminatan %}" class="btn-custom btn-custom-primary">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" onclick="confirmDelete({{ peminatan.id_peminatan }})" class="btn-custom btn-custom-danger">Delete</a>
+                            <form id="delete-form-{{ peminatan.id_peminatan }}" action="{% url 'delete_peminatan' peminatan.id_peminatan %}" method="post">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="id_peminatan" value="{{ peminatan.id_peminatan }}">
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr class="text-center">
+                      <td colspan="5">There are no Record Found!</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                
+              </div>
+              <!-- /.table-responsive 
+              {% comment %} pagination {% endcomment %} {% if rows.paginator.num_pages > 1 %}
+              <div class="pagination justify-content-center">
+                <ul class="pagination">
+                  {% if rows.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page=1">&laquo;</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page={{ rows.previous_page_number }}">&lsaquo;</a>
+                  </li>
+                  {% endif %} {% for i in rows.paginator.page_range %} {% if rows.number == i %}
+                  <li class="page-item active-custom">
+                    <a class="page-link" href="#">{{ i }}</a>
+                  </li>
+                  {% elif i > rows.number|add:'-3' and i < rows.number|add:'3' %}
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page={{ i }}">{{ i }}</a>
+                  </li>
+                  {% endif %} {% endfor %} {% if rows.has_next %}
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page={{ rows.next_page_number }}">&rsaquo;</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link text-custom-blue" href="?page={{ rows.paginator.num_pages }}">&raquo;</a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+              {% endif %}
+
+                -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+
+{% endblock content %}
+<!-- Content Wrapper -->
+
+{% block script %}
+<script>
+  {% for msg in messages %}
+  Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      icon: '{{ msg.tags }}',
+      title: '{{ msg }}',
+  });
+  {% endfor %}
+</script>
+
+<script>
+  function confirmDelete(id_peminatan) {
+    Swal.fire({
+      title: "Hapus Data Peminatan?",
+      text: "Data yang dihapus tidak bisa dipulihkan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("delete-form-" + id_peminatan).submit();
+      }
+    });
+  }
+</script>
+{% endblock script %} {% comment %} <!DOCTYPE html>
+<html>
+  <head>
+    <title>Machine Learning App - Result</title>
+  </head>
+  <body>
+    <h1>Hasil Prediksi</h1>
+    <p>Peminatan: {{ peminatan }}</p>
+  </body>
+</html>
+{% endcomment %}

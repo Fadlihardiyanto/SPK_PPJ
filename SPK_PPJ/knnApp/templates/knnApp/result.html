@@ -1,0 +1,411 @@
+{% extends 'dashboard/base.html' %} 
+{% load static %}
+{% block title %}
+Hasil Rekomendasi
+{% endblock title %}
+
+{% block content %} 
+
+    <div>
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">Hasil Rekomendasi</h1>
+            {% comment %} <a href="{% url 'generate_pdf' %}" class="btn btn-primary btn-icon-split">
+              <span class="icon text-white-50">
+                <i class="fas fa-download"></i>
+              </span>
+              <span class="text">Download</span>
+            </a> {% endcomment %}
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+          <!-- Area Chart -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Hasil Rekomendasi</h6>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <div class="card-area">
+                    {% if peminatan %}
+                        {% if user.is_staff == 1 %}
+                        <h4 class="text-dark">Hasil rekomendasi peminatan mahasiswa dengan nim {{ nim }} adalah: <span class="fw-bold">{{ peminatan }}</span></h4>
+                        {% else %}
+                        <h4 class="text-dark">Hasil rekomendasi peminatan anda adalah: <span class="fw-bold">{{ peminatan.peminatan }}</span></h4>
+                        {% endif %}
+                    {% else %}
+                        <p>Rekomendasi Peminatan: <span class="fw-bold">Tidak ada</span></p>
+                        <p>Silahkan lakukan rekomendasi peminatan terlebih dahulu.</p>
+
+                    {% endif %}  
+                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                </div>
+              </div>
+              
+            </div>
+          </div> 
+        </div>
+
+        <div class="row">
+          <!-- Area Chart -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Jarak Terdekat</h6>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <div class="card-area">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-bordered border-bottom">
+                    <thead>
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th class="text-center">Jarak</th>
+                            <th class="text-center">Peminatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data, jarak in closest_data %}
+                        <tr>
+                            <td class="text-center">{{ forloop.counter }}</td>
+                            <td class="text-center">{{ jarak }}</td>
+                            <td class="text-center">{{ data.peminatan }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div> 
+        </div>
+
+        {% if peminatan.peminatan == 'RPL' %}
+        <!-- Peminatan RPL Row -->
+        <div class="row">
+          <!-- Area Chart -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Peminatan RPL</h6>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <div class="card-area">
+                    <p class="text-dark">Rekayasa Perangkat Lunak (RPL) adalah peminatan yang mempelajari tentang pengembangan, operasi serta pemeliharaan perangkat lunak, meliputi juga metode, bahasa dan alat bantu (teknologi) yang dapat digunakan dalam rekayasa perangkat lunak tersebut. mata kuliah peminatan di RPL meliputi :</p>
+                    <ul class="text-dark">
+                      <li>Data Mining</li>
+                      <li>Sistem Pendukung Keputusan</li>
+                      <li>Robotika</li>
+                    </ul>
+                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                </div>
+              </div>
+              
+            </div>
+          </div> 
+        </div>
+
+          <!-- Data Mining Row -->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-custom-blue">Mata Kuliah Data Mining</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="card-area">
+                      <p class="text-dark">Mata kuliah data mining merupakan mata kuliah lanjutan terkait penggalian informasi dari sejumlah besar data yang tidak nampak polanya. Beberapa hal yang harus dipahami pada data mining adalah konsep dasar, metode dan teknik dasar dalam melakukan proses mining serta mampu mendeskripsikan dan mendemonstrasikan konsep, proses, metode dan teknik-teknik tersebut. Beberapa konsep dasar yang akan dipelajari dalam data mining adalah sebagai berikut :</p>
+                      <ul class="text-dark">
+                        <li>Memahami konsep data warehousing dan penyiapan data (data preprosesing)</li>
+                        <li>Memahami konsep pengelompokkan data (clustering)</li>
+                        <li>Memahami konsep prediksi, rekomendasi (klasifikasi)</li>
+                        <li>Algoritma cara menangani mising value</li>
+                        <li>Memahami konsep Association Rule (mengetahui keterkaitan antar data)</li>
+                        <li>Memahami konsep Squential Pattern (mengetahui keterkaitan antar data dengan memperhatikan timeline)</li>
+                      </ul>
+                    {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                  </div>
+                </div>
+                
+              </div>
+            </div> 
+          </div>
+
+          <!-- Sistem Pendukung Keputusan Row -->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-custom-blue">Mata Kuliah Sistem Pendukung Keputusan</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="card-area">
+                      <p class="text-dark">Sistem Pendukung Keputusan merupakan mata kuliah yang membahas sistem berbasis komputerisasi (termasuk sistem berbasis pengetahuan / manajemen pengetahuan) yang mendukung pengambilan keputusan dalam organisasi serta komponen-komponen pendukungnya. SPK dapat digambarkan sebagai sistem yang berkemampuan mendukung analisis ad hoc data, dan pemodelan keputusan, berorientasi keputusan, orientasi perencanaan masa depan.</p>
+                    {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                  </div>
+                </div>
+                
+              </div>
+            </div> 
+          </div>
+
+          <!-- Robotika Row -->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-custom-blue">Mata Kuliah Robotika</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="card-area">
+                      <p class="text-dark">Mata kuliah Robotika di program studi Teknik Informatika mempelajari konsep, prinsip, dan teknologi dalam desain, pengembangan, dan penggunaan robot. Anda akan mempelajari dasar-dasar kinematika robot, pemrograman robot, sistem kendali robot, serta aplikasi robot di berbagai bidang seperti manufaktur, pertanian, kesehatan, dan transportasi. Selama kursus, Anda juga akan melakukan praktikum dengan menggunakan robot dan perangkat lunak yang digunakan dalam pengembangan robot. Mata kuliah ini akan memberikan pemahaman yang kuat tentang teknologi robotika dan persiapan untuk bekerja di industri robotika yang berkembang pesat.</p>
+                    {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                  </div>
+                </div>
+                
+              </div>
+            </div> 
+          </div>
+        
+        {% elif peminatan.peminatan == 'MM' %}
+        <!-- Peminatan Multimedia Row -->
+        <div class="row">
+          <!-- Area Chart -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Peminatan Multimedia</h6>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <div class="card-area">
+                    <p class="text-dark">Peminatan Multimedia di program studi Teknik Informatika bertujuan untuk memberikan pemahaman dan keterampilan dalam pengembangan konten multimedia seperti audio, video, animasi, dan grafis komputer. Anda akan mempelajari teknologi dan alat-alat yang digunakan dalam produksi konten multimedia serta aplikasi multimedia di berbagai bidang seperti hiburan, pendidikan, bisnis, dan pemasaran. Selama kursus, Anda akan belajar tentang teknik-teknik editing, pengolahan gambar, desain animasi, dan pemrograman multimedia. Mata kuliah di Multimedia meliputi :</p>
+                    <ul class="text-dark">
+                      <li>Pengolahan Citra Digital</li>
+                      <li>Animasi dan Pemodelan 3D</li>
+                      <li>Teknik Kompresi dan Penyamaran Data</li>
+                    </ul>
+                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+
+          <!-- Pengolahan Citra Digital Row -->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-custom-blue">Mata Kuliah Pengolahan Citra Digital</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="card-area">
+                      <p class="text-dark">Pengolahan citra merupakan mata kuliah yang berisi konsep dasar pengolahan citra digital dan algoritma-algoritma dasar untuk pengolahan citra. Teknik-teknik pengolahan citra meliputi enhancement, restorasi, segmentasi, pemampatan citra dan morphologi matematika. Selain itu pada mata kuliah ini juga akan membahas tentang ilmu matematika yang digunakan untuk pengolahan citra, yaitu transfromasi Fourier, dan morphological mathematics</p>
+                    {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                  </div>
+                </div>
+                
+              </div>
+            </div> 
+          </div>
+
+
+          <!-- Animasi dan Pemodelan 3D Row -->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-custom-blue">Mata Kuliah Animasi dan Pemodelan 3D</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="card-area">
+                      <p class="text-dark">Mata kuliah Animasi dan Pemodelan 3D di program studi Teknik Informatika mempelajari konsep dan teknologi dalam pengembangan animasi dan model 3D. Anda akan mempelajari teknik-teknik pemodelan, pencahayaan, shading, dan animasi 3D yang digunakan dalam industri hiburan, iklan, dan video game. Selama kursus, Anda juga akan belajar tentang perangkat lunak industri seperti Autodesk Maya dan Blender yang digunakan untuk membuat animasi dan model 3D. Anda akan mempelajari cara membuat objek 3D, memodifikasi geometri, menambahkan tekstur, membuat animasi karakter, dan menyempurnakan hasil akhir dengan efek visual. Mata kuliah ini memberikan keterampilan dan pengetahuan yang diperlukan untuk menjadi animator, modeler, atau pengembang permainan video yang sukses di industri yang berkembang pesat ini.</p>
+                    {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                  </div>
+                </div>
+                
+              </div>
+            </div> 
+          </div>
+
+          <!-- Teknik Kompresi dan Penyamaran Data Row -->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-custom-blue">Teknik Kompresi dan Penyamaran Data</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="card-area">
+                      <p class="text-dark">Mata kuliah Teknik Kompresi dan Penyamaran Data di program studi Teknik Informatika mempelajari teknologi dan algoritma yang digunakan untuk mengompres dan menyamarkan data digital. Anda akan mempelajari teknik-teknik kompresi data seperti Huffman coding, Lempel-Ziv-Welch (LZW), run-length encoding (RLE), dan discrete cosine transform (DCT) yang digunakan dalam pengolahan citra, video, dan audio. Selain itu, Anda akan mempelajari teknik penyamaran data seperti steganografi dan kriptografi yang digunakan untuk menyembunyikan pesan atau melindungi data dari akses yang tidak sah. Selama kursus, Anda akan melakukan praktikum dengan menggunakan perangkat lunak yang digunakan dalam pengolahan citra, video, dan audio. Mata kuliah ini memberikan pemahaman dan keterampilan yang diperlukan untuk mengelola data digital dan persiapan untuk bekerja di industri yang berkembang pesat ini.</p>
+                    {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                  </div>
+                </div>
+                
+              </div>
+            </div> 
+          </div>
+
+        {% elif peminatan.peminatan == 'Jarkom' %}
+        <!-- Peminatan Jaringan Row -->
+        <div class="row">
+          <!-- Area Chart -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Peminatan Jaringan Komputer</h6>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <div class="card-area">
+                    <p class="text-dark">Peminatan Jaringan Komputer di program studi Teknik Informatika mempelajari teknologi, protokol, dan arsitektur yang digunakan dalam desain, pengembangan, dan pengelolaan jaringan komputer. Anda akan mempelajari cara menghubungkan perangkat, membangun topologi jaringan, mengoptimalkan kinerja jaringan, dan mengamankan jaringan dari serangan cyber. Selama kursus, Anda juga akan mempelajari teknologi jaringan terkini seperti virtualisasi jaringan, jaringan definisi perangkat lunak (SDN), dan Internet of Things (IoT). Anda akan melakukan praktikum dengan menggunakan perangkat lunak jaringan komputer dan perangkat jaringan seperti router, switch, dan firewall. Peminatan Jaringan Komputer memberikan keterampilan dan pengetahuan yang diperlukan untuk menjadi administrator jaringan, insinyur jaringan, atau arsitek jaringan yang sukses di industri yang berkembang pesat ini. Mata kuliah di Jaringan meliputi :</p>
+                    <ul class="text-dark">
+                      <li>Jaringan Nirkabel</li>
+                      <li>Komputasi Awan</li>
+                      <li>Komputasi Bergerak</li>
+                    </ul>
+                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- Mata kuliah Jaringan Nirkabel Row -->
+        <div class="row">
+          <!-- Area Chart -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Mata Kuliah Jaringan Nirkabel</h6>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <div class="card-area">
+                    <p class="text-dark">Mata kuliah Jaringan Nirkabel di program studi Teknik Informatika membahas konsep, protokol, dan teknologi yang terkait dengan jaringan komunikasi nirkabel. Anda akan mempelajari cara mendesain, mengimplementasikan, dan mengelola jaringan nirkabel, termasuk pemahaman tentang teknologi WLAN (Wireless Local Area Network), teknik akses nirkabel, dan keamanan jaringan nirkabel.</p>
+                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- Mata kuliah Komputasi Awan Row -->
+        <div class="row">
+          <!-- Area Chart -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Mata Kuliah Komputasi Awan</h6>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <div class="card-area">
+                    <p class="text-dark">Pada mata kuliah ini, mahasiswa akan mempelajari komputasi cloud, mulai dari aplikasi dan administrasi hingga pemrograman dan infrastruktur. Sasaran utama adalah teknik pemrograman paralel untuk komputasi cloud dan sistem terdistribusi bersakala besar yang membentuk infrastruktur cloud. Topiknya meliputi komputasi cloud secara garis besar, sistem cloud, pemrosesan parallel cloud, sistem penyimpanan terdistribusi, virtualisasi, sekuriti di sistem cloud, dan sistem operasi multicore.
+                    </p>
+                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- Mata kuliah Komputasi Bergerak Row -->
+        <div class="row">
+          <!-- Area Chart -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-custom-blue">Mata Kuliah Komputasi Bergerak</h6>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <div class="card-area">
+                    <p class="text-dark">Pada mata kuliah ini, mahasiswa akan mempelajari komputasi bergerak (Mobile computing) yaitu suatu konsep yang mengacu pada kemampuan untuk menggunakan teknologi komputer secara nirkabel dan portabel Hal ini memungkinkan pengguna untuk mengakses informasi dan layanan kapan saja dan di mana saja, tanpa terbatas oleh koneksi kabel atau lokasi tertentu
+                    </p>
+                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+          {% endif %}
+        
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+
+  {% endblock content %}
+  <!-- Content Wrapper -->
+
+  {% block script %}
+  <script>
+    {% for msg in messages %}
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        icon: '{{ msg.tags }}',
+        title: '{{ msg }}',
+        text: 'Welcome to Akademi Application'
+    });
+    {% endfor %}
+  </script>
+  {% endblock script %}
+
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Machine Learning App - Result</title>
+</head>
+<body>
+    <h1>Hasil Prediksi</h1>
+    <p>Peminatan: {{ peminatan }}</p>
+</body>
+</html> {% endcomment %}

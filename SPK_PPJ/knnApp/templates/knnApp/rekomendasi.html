@@ -1,0 +1,115 @@
+{% extends 'dashboard/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block title %} Dashboard {% endblock title %} {% block content %}
+
+<div>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Rekomendasi</h1>
+    </div>
+
+    <!-- Content Row -->
+
+    <div class="row">
+      <!-- Area Chart -->
+      <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-custom-blue">Masukan Nilai Mata Kuliah</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="card-area">
+              <form method="post">
+                {% csrf_token %}
+                
+                {% if request.user.is_staff %}
+                  {{ form.nim|as_crispy_field }}
+                {% else %}
+                  <input type="hidden" name="nim" value="{{ request.user.NimOrNip }}">
+                {% endif %}
+              
+                {{ form.Algoritma_dan_Pemrograman|as_crispy_field }}
+                {{ form.Aljabar_Linier_dan_Matriks|as_crispy_field }}
+                {{ form.Fisika_Listrik_dan_Magnet|as_crispy_field }}
+                {{ form.Grafik_Komputer|as_crispy_field }}
+                {{ form.Kalkulus|as_crispy_field }}
+                {{ form.Keamanan_Info_dan_Jaringan|as_crispy_field }}
+                {{ form.Kom_Data_dan_Jaringan_Komputer|as_crispy_field }}
+                {{ form.Logika_Informatika|as_crispy_field }}
+                {{ form.Manajemen_Proyek|as_crispy_field }}
+                {{ form.Matematika_Diskrit|as_crispy_field }}
+                {{ form.Metode_Numerik|as_crispy_field }}
+                {{ form.Multimedia|as_crispy_field }}
+                {{ form.Organisasi_dan_Arsitektur_Komp|as_crispy_field }}
+                {{ form.Pemrograman_Berorientasi_Obyek|as_crispy_field }}
+                {{ form.Pemrograman_Lanjut|as_crispy_field }}
+                {{ form.Pemrograman_Web|as_crispy_field }}
+                {{ form.Pengantar_Kriptografi|as_crispy_field }}
+                {{ form.Prak_Pemrog_Berorient_Obyek|as_crispy_field }}
+                {{ form.Prak_Sistem_Basis_Data|as_crispy_field }}
+                {{ form.Prak_Algoritma_dan_Pemrograman|as_crispy_field }}
+                {{ form.Praktikum_Pemrograman_Lanjut|as_crispy_field }}
+                {{ form.Praktikum_Pemrograman_Web|as_crispy_field }}
+                {{ form.Praktikum_Struktur_Data|as_crispy_field }}
+                {{ form.Rekayasa_Perangkat_Lunak|as_crispy_field }}
+                {{ form.Sistem_Basis_Data|as_crispy_field }}
+                {{ form.Sistem_Digital_dan_Gelombang|as_crispy_field }}
+                {{ form.Sistem_Informasi|as_crispy_field }}
+                {{ form.Sistem_Operasi|as_crispy_field }}
+                {{ form.Statistika_Probabilitas|as_crispy_field }}
+                {{ form.Struktur_Data|as_crispy_field }}
+                {{ form.Teknik_Perancangan_Sistem|as_crispy_field }}
+                {{ form.Teori_Bahasa_Automata_and_Komp|as_crispy_field }}
+                {{ form.Testing_and_Implementation|as_crispy_field }}
+              
+                <input type="submit" value="Prediksi" class="btn-custom btn-custom-primary">
+              </form>
+              
+              
+
+
+              {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+
+{% endblock content %}
+<!-- Content Wrapper -->
+
+{% block script %}
+<script>
+  {% for msg in messages %}
+  Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      icon: '{{ msg.tags }}',
+      title: '{{ msg }}',
+      text: 'Welcome to Akademi Application'
+  });
+  {% endfor %}
+</script>
+{% endblock script %} {% comment %} <!DOCTYPE html>
+<html>
+  <head>
+    <title>Machine Learning App - Predict</title>
+  </head>
+  <body>
+    <h1>Masukkan Nilai Mata Kuliah</h1>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <input type="submit" value="Prediksi" />
+    </form>
+  </body>
+</html>
+{% endcomment %}

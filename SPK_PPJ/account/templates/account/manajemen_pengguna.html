@@ -1,0 +1,197 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} 
+  Manajemen Pengguna
+{% endblock title %}
+
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Manajemen Pengguna</h1>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <!-- Input Area -->
+    <div class="col-xl-12 col-lg-7">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-custom-blue">Data Pengguna</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <form class="form-inline" action="" method="get">
+              <div class="form-group mx-sm-2 mb-2">
+                {{ MyFilter.form.NimOrNip|as_crispy_field }}
+              </div>
+              <div class="form-group mx-sm-2 mb-2">
+                {{ MyFilter.form.nama|as_crispy_field }}
+              </div>
+              <div class="form-group mx-sm-2 mb-2">
+                {{ MyFilter.form.active|as_crispy_field }}
+              </div>
+              <div class="form-group mx-sm-2 mb-2">
+                {{ MyFilter.form.role|as_crispy_field }}
+              </div>
+              <button class="btn-custom btn-custom-primary m-2" type="submit">Search</button> 
+            </form>            
+            <div class="m-4">
+              <a href="{% url 'tambah_data_pengguna' %}" class="btn-custom btn-custom-primary">
+                <i class="fas fa-plus"></i>
+                Tambah Data
+              </a>
+            </div>
+          </div>
+         
+          <div class="container-fluid"></div>
+          <div class="card-area">
+            <div class="table-responsive">
+              <table class="table table-bordered border-bottom">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">NIM/NIP</th>
+                    <th scope="col">Nama Lengkap</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for pengguna in pengguna_list %}
+                  <tr>
+                    <th scope="row">{{ pengguna_list.start_index|add:forloop.counter0 }}</th>
+                    <td>{{ pengguna.NimOrNip }}</td>
+                    <td>{{ pengguna.name }}</td>
+                    <td>{{ pengguna.email }}</td>
+                    {% if pengguna.is_staff == 1 %}
+                    <td>Admin</td>
+                    {% else %}
+                    <td>Mahasiswa</td>
+                    {% endif %}
+                    <td class="text-center">
+                        <form action="{% url 'update_status' pengguna.id %}" method="POST">
+                            {% csrf_token %}
+                            {% if pengguna.is_active %}
+                                <button type="submit" name="is_active" value="0" class="btn-custom btn-custom-success">Active</button>
+                            {% else %}
+                                <button type="submit" name="is_active" value="1" class="btn-custom btn-custom-danger">Non-Active</button>
+                            {% endif %}
+                        </form>
+                    </td>                    
+                    <td>
+                      <a href="{% url 'edit_pengguna' pengguna.id %}" class="btn-custom btn-custom-primary">Edit</a>
+                    </td>
+                    <td>
+                      <a href="#" onclick="confirmDelete({{ pengguna.id }})" class="btn-custom btn-custom-danger">Delete</a>
+                      <form id="delete-form-{{ pengguna.id }}" action="{% url 'delete_pengguna' pengguna.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ pengguna.id }}">
+                    </form>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr class="text-center">
+                    <td colspan="8">There are no Records Found!</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            
+            {% if pengguna_list.has_other_pages %}
+            <div class="pagination justify-content-center">
+              <ul class="pagination">
+                {% if pengguna_list.has_previous %}
+                <li class="page-item">
+                  <a class="page-link text-custom-blue" href="?page=1">&laquo;</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link text-custom-blue" href="?page={{ pengguna_list.previous_page_number }}">&lsaquo;</a>
+                </li>
+                {% endif %}
+            
+                {% for num in pengguna_list.paginator.page_range %}
+                  {% if pengguna_list.number == num %}
+                    <li class="page-item active-custom">
+                      <span class="page-link">{{ num }}</span>
+                    </li>
+                  {% else %}
+                    {% if num > pengguna_list.number|add:'-3' and num < pengguna_list.number|add:'3' %}
+                      <li class="page-item">
+                        <a class="page-link text-custom-blue" href="?page={{ num }}">{{ num }}</a>
+                      </li>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+            
+                {% if pengguna_list.has_next %}
+                <li class="page-item">
+                  <a class="page-link text-custom-blue" href="?page={{ pengguna_list.next_page_number }}">&rsaquo;</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link text-custom-blue" href="?page={{ pengguna_list.paginator.num_pages }}">&raquo;</a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.container-fluid -->
+{% endblock content %}
+
+{% block script %}
+  {{ block.super }}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+  <script>
+    lightbox.option({
+      'resizeDuration': 200,
+      'wrapAround': true
+    })
+  </script>
+
+  <script>
+    {% for message in messages %}
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      icon: '{{ message.tags }}',
+      title: '{{ message }}',
+    });
+    {% endfor %}
+  </script>
+
+  <script>
+    function confirmDelete(id) {
+      Swal.fire({
+        title: 'Hapus Data Pengguna?',
+        text: "Data yang dihapus tidak dapat dipulihkan",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('delete-form-' + id).submit();
+        }
+      })
+    }
+  </script>
+{% endblock %}
