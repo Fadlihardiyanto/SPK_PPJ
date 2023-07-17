@@ -1,4 +1,4 @@
-{% extends 'dashboard/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block title %} Data Testing {% endblock title %} {% block content %}
+{% extends 'dashboard/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block title %} Peminatan {% endblock title %} {% block content %}
 
 <div>
   <!-- Begin Page Content -->
@@ -22,10 +22,7 @@
           <div class="card-body">
             <div class="d-flex justify-content-between">
                 <form class="form-inline" action="" method="get">
-                  {% comment %} <div class="form-group mx-sm-2 mb-2">{{ MyFilter.form.peminatan|as_crispy_field }}</div>
-                  <div class="form-group mx-sm-2 mb-2">{{ MyFilter.form.NIM|as_crispy_field }}</div>
-                  <button class="btn-custom btn-custom-primary m-2" type="submit">Search</button>
-   {% endcomment %}
+                  
                   <div class="mb-3">
                     <a href="{% url 'tambah_peminatan' %}" class="btn-custom btn-custom-primary">
                       <i class="fas fa-plus"></i>
@@ -74,38 +71,6 @@
                 </table>
                 
               </div>
-              <!-- /.table-responsive 
-              {% comment %} pagination {% endcomment %} {% if rows.paginator.num_pages > 1 %}
-              <div class="pagination justify-content-center">
-                <ul class="pagination">
-                  {% if rows.has_previous %}
-                  <li class="page-item">
-                    <a class="page-link text-custom-blue" href="?page=1">&laquo;</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link text-custom-blue" href="?page={{ rows.previous_page_number }}">&lsaquo;</a>
-                  </li>
-                  {% endif %} {% for i in rows.paginator.page_range %} {% if rows.number == i %}
-                  <li class="page-item active-custom">
-                    <a class="page-link" href="#">{{ i }}</a>
-                  </li>
-                  {% elif i > rows.number|add:'-3' and i < rows.number|add:'3' %}
-                  <li class="page-item">
-                    <a class="page-link text-custom-blue" href="?page={{ i }}">{{ i }}</a>
-                  </li>
-                  {% endif %} {% endfor %} {% if rows.has_next %}
-                  <li class="page-item">
-                    <a class="page-link text-custom-blue" href="?page={{ rows.next_page_number }}">&rsaquo;</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link text-custom-blue" href="?page={{ rows.paginator.num_pages }}">&raquo;</a>
-                  </li>
-                  {% endif %}
-                </ul>
-              </div>
-              {% endif %}
-
-                -->
             </div>
           </div>
         </div>
@@ -151,14 +116,4 @@
     });
   }
 </script>
-{% endblock script %} {% comment %} <!DOCTYPE html>
-<html>
-  <head>
-    <title>Machine Learning App - Result</title>
-  </head>
-  <body>
-    <h1>Hasil Prediksi</h1>
-    <p>Peminatan: {{ peminatan }}</p>
-  </body>
-</html>
-{% endcomment %}
+{% endblock script %} 

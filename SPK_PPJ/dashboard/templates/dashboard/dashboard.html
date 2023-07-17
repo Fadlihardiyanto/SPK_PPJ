@@ -11,15 +11,13 @@ Dashboard
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-          <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-          <i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
         </div>
 
         {% if user.is_staff %}
 
         <!-- Content Row -->
         <div class="row">
-          <!-- Earnings (Monthly) Card Example -->
+          <!-- Pengguna Card -->
           <div class="col-xl-12 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
               <div class="card-body">
@@ -52,7 +50,7 @@ Dashboard
             </div>
           </div>
 
-          <!-- Earnings (Monthly) Card Example -->
+          <!-- Training -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
               <div class="card-body">
@@ -69,7 +67,7 @@ Dashboard
             </div>
           </div>
 
-          <!-- Earnings (Monthly) Card Example -->
+          <!-- Training Multimedia -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
               <div class="card-body">
@@ -93,7 +91,7 @@ Dashboard
             </div>
           </div>
 
-          <!-- Pending Requests Card Example -->
+          <!-- Training Jaringan -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
               <div class="card-body">
@@ -110,6 +108,7 @@ Dashboard
             </div>
           </div>
 
+          <!-- Hasil Rekomendasi -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-secondary shadow h-100 py-2">
               <div class="card-body">
@@ -126,7 +125,7 @@ Dashboard
             </div>
           </div>
 
-          <!-- Earnings (Monthly) Card Example -->
+          <!-- Testing RPL -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
               <div class="card-body">
@@ -143,7 +142,7 @@ Dashboard
             </div>
           </div>
 
-          <!-- Earnings (Monthly) Card Example -->
+          <!-- Testing Multimedia -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
               <div class="card-body">
@@ -167,7 +166,7 @@ Dashboard
             </div>
           </div>
 
-          <!-- Pending Requests Card Example -->
+          <!-- Testing Jaringan Komputer -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
               <div class="card-body">
@@ -217,7 +216,7 @@ Dashboard
       </div>
 
       <div class="row">
-        <!-- Area Chart -->
+        <!-- Peminatan Multimedia -->
         <div class="col-xl-12 col-lg-12">
           <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
@@ -233,7 +232,6 @@ Dashboard
                     <li>Animasi dan Pemodelan 3D</li>
                     <li>Teknik Kompresi dan Penyamaran Data</li>
                   </ul>
-                {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
               </div>
             </div>
             
@@ -243,10 +241,8 @@ Dashboard
 
       <!-- Peminatan Jaringan Row -->
       <div class="row">
-        <!-- Area Chart -->
         <div class="col-xl-12 col-lg-12">
           <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 class="m-0 font-weight-bold text-custom-blue">Peminatan Jaringan Komputer</h6>
             </div>
@@ -259,7 +255,6 @@ Dashboard
                     <li>Komputasi Awan</li>
                     <li>Komputasi Bergerak</li>
                   </ul>
-                {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
               </div>
             </div>
             

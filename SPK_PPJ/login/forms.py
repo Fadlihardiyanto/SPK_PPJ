@@ -12,6 +12,6 @@ class LoginForm(forms.Form):
         password = cleaned_data.get('password')
         user = authenticate(NimOrNip=NimOrNip, password=password)
         if user is None:
-            raise forms.ValidationError('Invalid email or password.')
+            raise forms.ValidationError('Invalid Nim/Nip or password.')
         cleaned_data['user'] = user
         return cleaned_data

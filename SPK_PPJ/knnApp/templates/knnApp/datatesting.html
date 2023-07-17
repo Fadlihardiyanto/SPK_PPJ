@@ -140,7 +140,8 @@
                 </table>
               </div>
 
-              {% comment %} pagination {% endcomment %} {% if rows.paginator.num_pages > 1 %}
+              {% comment %} pagination {% endcomment %} 
+              {% if rows.paginator.num_pages > 1 %}
               <div class="pagination justify-content-center">
                 <ul class="pagination">
                   {% if rows.has_previous %}
@@ -175,9 +176,7 @@
       </div>
     </div>
   </div>
-  <!-- /.container-fluid -->
 </div>
-<!-- End of Main Content -->
 
 {% endblock content %}
 <!-- Content Wrapper -->
@@ -214,14 +213,4 @@
     });
   }
 </script>
-{% endblock script %} {% comment %} <!DOCTYPE html>
-<html>
-  <head>
-    <title>Machine Learning App - Result</title>
-  </head>
-  <body>
-    <h1>Hasil Prediksi</h1>
-    <p>Peminatan: {{ peminatan }}</p>
-  </body>
-</html>
-{% endcomment %}
+{% endblock script %} 

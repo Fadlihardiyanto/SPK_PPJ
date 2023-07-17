@@ -36,7 +36,6 @@
               
                 <input type="submit" value="Prediksi" class="btn-custom btn-custom-primary">
               </form>
-              {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
             </div>
           </div>
         </div>
@@ -65,17 +64,4 @@
   });
   {% endfor %}
 </script>
-{% endblock script %} {% comment %} <!DOCTYPE html>
-<html>
-  <head>
-    <title>Machine Learning App - Predict</title>
-  </head>
-  <body>
-    <h1>Masukkan Nilai Mata Kuliah</h1>
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <input type="submit" value="Prediksi" />
-    </form>
-  </body>
-</html>
-{% endcomment %}
+{% endblock script %} 

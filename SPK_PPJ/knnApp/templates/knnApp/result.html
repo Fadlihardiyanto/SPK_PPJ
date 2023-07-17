@@ -12,12 +12,6 @@ Hasil Rekomendasi
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">Hasil Rekomendasi</h1>
-            {% comment %} <a href="{% url 'generate_pdf' %}" class="btn btn-primary btn-icon-split">
-              <span class="icon text-white-50">
-                <i class="fas fa-download"></i>
-              </span>
-              <span class="text">Download</span>
-            </a> {% endcomment %}
         </div>
 
         <!-- Content Row -->
@@ -43,7 +37,6 @@ Hasil Rekomendasi
                         <p>Silahkan lakukan rekomendasi peminatan terlebih dahulu.</p>
 
                     {% endif %}  
-                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
                 </div>
               </div>
               
@@ -362,7 +355,6 @@ Hasil Rekomendasi
                 <div class="card-area">
                     <p class="text-dark">Pada mata kuliah ini, mahasiswa akan mempelajari komputasi bergerak (Mobile computing) yaitu suatu konsep yang mengacu pada kemampuan untuk menggunakan teknologi komputer secara nirkabel dan portabel Hal ini memungkinkan pengguna untuk mengakses informasi dan layanan kapan saja dan di mana saja, tanpa terbatas oleh koneksi kabel atau lokasi tertentu
                     </p>
-                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
                 </div>
               </div>
               
@@ -391,21 +383,9 @@ Hasil Rekomendasi
         timerProgressBar: true,
         icon: '{{ msg.tags }}',
         title: '{{ msg }}',
-        text: 'Welcome to Akademi Application'
     });
     {% endfor %}
   </script>
   {% endblock script %}
 
 
-
-{% comment %} <!DOCTYPE html>
-<html>
-<head>
-    <title>Machine Learning App - Result</title>
-</head>
-<body>
-    <h1>Hasil Prediksi</h1>
-    <p>Peminatan: {{ peminatan }}</p>
-</body>
-</html> {% endcomment %}

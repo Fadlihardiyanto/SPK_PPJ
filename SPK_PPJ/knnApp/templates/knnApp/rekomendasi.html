@@ -1,4 +1,4 @@
-{% extends 'dashboard/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block title %} Dashboard {% endblock title %} {% block content %}
+{% extends 'dashboard/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block title %} Rekomendasi {% endblock title %} {% block content %}
 
 <div>
   <!-- Begin Page Content -->
@@ -95,21 +95,7 @@
       timerProgressBar: true,
       icon: '{{ msg.tags }}',
       title: '{{ msg }}',
-      text: 'Welcome to Akademi Application'
   });
   {% endfor %}
 </script>
-{% endblock script %} {% comment %} <!DOCTYPE html>
-<html>
-  <head>
-    <title>Machine Learning App - Predict</title>
-  </head>
-  <body>
-    <h1>Masukkan Nilai Mata Kuliah</h1>
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <input type="submit" value="Prediksi" />
-    </form>
-  </body>
-</html>
-{% endcomment %}
+{% endblock script %}

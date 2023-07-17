@@ -33,15 +33,18 @@ Hasil Rekomendasi
               <!-- Card Body -->
               <div class="card-body">
                 <div class="card-area">
-                    {% if peminatan %}
-                        <h4 class="text-dark">Hasil rekomendasi peminatan anda adalah: <span class="fw-bold">{{ peminatan }}</span></h4>
-                    {% else %}
-                        <p>Rekomendasi Peminatan: <span class="fw-bold">Tidak ada</span></p>
-                        <p>Silahkan lakukan rekomendasi peminatan terlebih dahulu.</p>
+                  {% if peminatan %}
+                      {% if user.is_staff == 1 %}
+                      <h4 class="text-dark">Hasil rekomendasi peminatan mahasiswa dengan nim {{ nim }} adalah: <span class="fw-bold">{{ peminatan }}</span></h4>
+                      {% else %}
+                      <h4 class="text-dark">Hasil rekomendasi peminatan anda adalah: <span class="fw-bold">{{ peminatan.peminatan }}</span></h4>
+                      {% endif %}
+                  {% else %}
+                      <p>Rekomendasi Peminatan: <span class="fw-bold">Tidak ada</span></p>
+                      <p>Silahkan lakukan rekomendasi peminatan terlebih dahulu.</p>
 
-                    {% endif %}  
-                  {% comment %} <canvas id="myAreaChart"></canvas> {% endcomment %}
-                </div>
+                  {% endif %}  
+              </div>
               </div>
               
             </div>
@@ -396,13 +399,3 @@ Hasil Rekomendasi
 
 
 
-{% comment %} <!DOCTYPE html>
-<html>
-<head>
-    <title>Machine Learning App - Result</title>
-</head>
-<body>
-    <h1>Hasil Prediksi</h1>
-    <p>Peminatan: {{ peminatan }}</p>
-</body>
-</html> {% endcomment %}

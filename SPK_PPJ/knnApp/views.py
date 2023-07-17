@@ -39,6 +39,7 @@ from sklearn.preprocessing import StandardScaler
 
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 def peminatan(request):
     peminatan_list = Peminatan.objects.all()
     
@@ -50,6 +51,7 @@ def peminatan(request):
 
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 def tambah_peminatan(request):
     if request.method == 'POST':
         form = PeminatanForm(request.POST)
@@ -61,6 +63,7 @@ def tambah_peminatan(request):
     return render(request, 'knnApp/tambah_peminatan.html', {'form': form})
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 def edit_peminatan(request, id_peminatan):
     peminatan = Peminatan.objects.get(id_peminatan=id_peminatan)
     if request.method == 'POST':
@@ -89,6 +92,7 @@ def delete_peminatan(request, id_peminatan):
 
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 def import_data_training(request):
     if request.method == 'POST':
         csv_file = request.FILES['csv_file']
@@ -182,18 +186,18 @@ def import_data_training(request):
 
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 def update_model(request):
     if request.method == 'POST':
         form = UpdateModelForm(request.POST)
         if form.is_valid():
             k_model = form.cleaned_data['k_model']
-            k_value = k_model # Get the value of k from the selected KTabel instance
+            k_value = k_model  # Get the value of k from the selected KTabel instance
 
-
-            # Ambil data training dari database
+            # Load the training dataset from the database
             training_data = DataTraining.objects.all()
 
-            # Bentuk data training menjadi array fitur dan array target
+            # Extract features and target variables
             X_train = np.array([
                 [
                     row.Algoritma_dan_Pemrograman,
@@ -238,51 +242,45 @@ def update_model(request):
                 for row in training_data
             ])
 
-            # Flatten array target jika diperlukan
+            # Flatten the target array if needed
             y_train = y_train.flatten()
 
-            # Inisialisasi LabelEncoder dan fit_transform array target
+            # Perform label encoding on the target variable
             le = LabelEncoder()
             y_train = le.fit_transform(y_train)
-            
-            # Normalisasi fitur menggunakan StandardScaler
+
+            # Standardize features using StandardScaler
             scaler = StandardScaler()
             X_train = scaler.fit_transform(X_train)
 
-            # Inisialisasi SimpleImputer dan fit_transform array fitur
-            imputer = SimpleImputer(strategy='mean')
-            X_train = imputer.fit_transform(X_train)
-
-            # Inisialisasi dan latih model KNN
+            # Initialize and train the KNN model
             model = KNeighborsClassifier(n_neighbors=k_value)
             model.fit(X_train, y_train)
 
-           # Normalisasi fitur menggunakan StandardScaler
-            scaler = StandardScaler()
-            X_train = scaler.fit_transform(X_train)
-
-            # Simpan model ke file joblib
-            model_path = os.path.join(os.path.dirname(__file__), '../saveModels/model_knn_normalisasi.joblib')
+            # Save the model using joblib
+            model_path = os.path.join(os.path.dirname(__file__), '../saveModels/model_knn_new.joblib')
             joblib.dump(model, model_path)
 
-            # Simpan scaler ke file joblib
-            scaler_path = os.path.join(os.path.dirname(__file__), '../saveModels/scaler.joblib')
+            # Save the scaler using joblib
+            scaler_path = os.path.join(os.path.dirname(__file__), '../saveModels/scaler_new.joblib')
             joblib.dump(scaler, scaler_path)
 
-
             messages.success(request, 'Model berhasil diperbarui.')
-            return HttpResponseRedirect('/datatraining/')  # Ubah ke URL yang sesuai
+            return HttpResponseRedirect('/datatraining/')  # Change to the appropriate URL
 
     else:
         form = UpdateModelForm()
 
     return render(request, 'knnApp/update_model.html', {'form': form})
 
+
+
+
 @login_required(login_url=settings.LOGIN_URL)
 def predict(request):
     # Path to the saved model and scaler files
-    model_path = os.path.join(os.path.dirname(__file__), '../saveModels/knn_model_normalisasi.joblib')
-    scaler_path = os.path.join(os.path.dirname(__file__), '../saveModels/scaler_normalisasi.joblib')
+    model_path = os.path.join(os.path.dirname(__file__), '../saveModels/model_knn_new.joblib')
+    scaler_path = os.path.join(os.path.dirname(__file__), '../saveModels/scaler_new.joblib')
 
     # Load the existing model and scaler
     model = joblib.load(model_path)
@@ -295,7 +293,7 @@ def predict(request):
             X_new = np.array([data['Algoritma_dan_Pemrograman'], data['Aljabar_Linier_dan_Matriks'], data['Fisika_Listrik_dan_Magnet'], data['Grafik_Komputer'], data['Kalkulus'], data['Keamanan_Info_dan_Jaringan'], data['Kom_Data_dan_Jaringan_Komputer'], data['Logika_Informatika'], data['Manajemen_Proyek'], data['Matematika_Diskrit'], data['Metode_Numerik'], data['Multimedia'], data['Organisasi_dan_Arsitektur_Komp'], data['Pemrograman_Berorientasi_Obyek'], data['Pemrograman_Lanjut'], data['Pemrograman_Web'], data['Pengantar_Kriptografi'], data['Prak_Pemrog_Berorient_Obyek'], data['Prak_Sistem_Basis_Data'], data['Prak_Algoritma_dan_Pemrograman'], data['Praktikum_Pemrograman_Lanjut'], data['Praktikum_Pemrograman_Web'], data['Praktikum_Struktur_Data'], data['Rekayasa_Perangkat_Lunak'], data['Sistem_Basis_Data'], data['Sistem_Digital_dan_Gelombang'], data['Sistem_Informasi'], data['Sistem_Operasi'], data['Statistika_Probabilitas'], data['Struktur_Data'], data['Teknik_Perancangan_Sistem'], data['Teori_Bahasa_Automata_and_Komp'], data['Testing_and_Implementation']])
             X_new = X_new.reshape(1, -1)
             X_new = scaler.transform(X_new)  # Normalize the data
-            
+
             y_new = model.predict(X_new)
             if y_new == 0:
                 peminatan_id = 0  # ID peminatan Jarkom dalam model Peminatan
@@ -305,47 +303,6 @@ def predict(request):
                 peminatan_id = 2  # ID peminatan RPL dalam model Peminatan
 
             peminatan = Peminatan.objects.get(id_peminatan=peminatan_id)
-
-            # Calculate distances between the new data point and training data
-            data_training = DataTraining.objects.all()
-            data_jarak = [euclidean(X_new[0], [
-                row.Algoritma_dan_Pemrograman,
-                row.Aljabar_Linier_dan_Matriks,
-                row.Fisika_Listrik_dan_Magnet,
-                row.Grafik_Komputer,
-                row.Kalkulus,
-                row.Keamanan_Info_dan_Jaringan,
-                row.Kom_Data_dan_Jaringan_Komputer,
-                row.Logika_Informatika,
-                row.Manajemen_Proyek,
-                row.Matematika_Diskrit,
-                row.Metode_Numerik,
-                row.Multimedia,
-                row.Organisasi_dan_Arsitektur_Komp,
-                row.Pemrograman_Berorientasi_Obyek,
-                row.Pemrograman_Lanjut,
-                row.Pemrograman_Web,
-                row.Pengantar_Kriptografi,
-                row.Prak_Pemrog_Berorient_Obyek,
-                row.Prak_Sistem_Basis_Data,
-                row.Prak_Algoritma_dan_Pemrograman,
-                row.Praktikum_Pemrograman_Lanjut,
-                row.Praktikum_Pemrograman_Web,
-                row.Praktikum_Struktur_Data,
-                row.Rekayasa_Perangkat_Lunak,
-                row.Sistem_Basis_Data,
-                row.Sistem_Digital_dan_Gelombang,
-                row.Sistem_Informasi,
-                row.Sistem_Operasi,
-                row.Statistika_Probabilitas,
-                row.Struktur_Data,
-                row.Teknik_Perancangan_Sistem,
-                row.Teori_Bahasa_Automata_and_Komp,
-                row.Testing_and_Implementation
-            ]) for row in data_training]
-
-            # Sort the distances and retrieve the closest data points
-            closest_data = sorted(zip(data_training, data_jarak), key=lambda x: x[1])[:11]
 
             result = DataTesting(
                 Algoritma_dan_Pemrograman=data['Algoritma_dan_Pemrograman'],
@@ -384,14 +341,14 @@ def predict(request):
                 peminatan=peminatan,
                 user=request.user
             )
-            
+
             if request.user.is_staff:
                 result.nim = data['nim']
             else:
                 result.nim = request.user.NimOrNip
             result.save()
 
-            return render(request, 'knnApp/result.html', {'peminatan': peminatan, 'closest_data': closest_data, 'nim': result.nim})
+            return redirect('/hasil/')
 
     else:
         form = PredictionForm()
@@ -400,10 +357,11 @@ def predict(request):
 
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 def predictcsv(request):
     # Path to the saved model and scaler files
-    model_path = os.path.join(os.path.dirname(__file__), '../saveModels/knn_model_normalisasi.joblib')
-    scaler_path = os.path.join(os.path.dirname(__file__), '../saveModels/scaler_normalisasi.joblib')
+    model_path = os.path.join(os.path.dirname(__file__), '../saveModels/model_knn_new.joblib')
+    scaler_path = os.path.join(os.path.dirname(__file__), '../saveModels/scaler_new.joblib')
 
     # Load the existing model and scaler
     model = joblib.load(model_path)
@@ -497,6 +455,7 @@ def predictcsv(request):
 
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 def datatraining(request):
     rows = DataTraining.objects.all()
     training_filter = OrderFilterTraining(request.GET, queryset=rows)
@@ -525,6 +484,7 @@ def datatraining(request):
     return render(request, 'knnApp/datatraining.html', context)
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 @require_POST
 def delete_training_data(request, id_training):
     rows = DataTraining.objects.get(id_training=id_training)
@@ -539,8 +499,9 @@ def delete_training_data(request, id_training):
 
 @login_required(login_url=settings.LOGIN_URL)
 def hasil(request):
-    # Show data training
+    # Show data testing
     data = DataTesting.objects.filter(user=request.user).order_by('-id_testing').first()
+    nim = data.nim if data else None
     peminatan = data.peminatan if data else None
 
     # Retrieve closest data points
@@ -620,12 +581,13 @@ def hasil(request):
         # Sort the distances and retrieve the closest data points
         closest_data = sorted(zip(data_training, data_jarak), key=lambda x: x[1])[:11]
 
-    return render(request, 'knnApp/hasil.html', {'peminatan': peminatan, 'closest_data': closest_data})
+    return render(request, 'knnApp/hasil.html', {'peminatan': peminatan, 'closest_data': closest_data, 'nim': nim})
 
 
 
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 def datatesting(request):
     rows = DataTesting.objects.all().order_by('-id_testing')
     users = MyUser.objects.all()
@@ -658,6 +620,7 @@ def datatesting(request):
     return render(request, 'knnApp/datatesting.html', context)
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 @require_POST
 def delete_testing_data(request, id_testing):
     rows = DataTesting.objects.get(id_testing=id_testing)
@@ -670,6 +633,7 @@ def delete_testing_data(request, id_testing):
         return HttpResponseRedirect(reverse('datatesting'))
 
 @login_required(login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.is_staff, login_url=settings.LOGIN_URL)
 def export_csv(request):
     data_testing = DataTesting.objects.select_related('user').all()
 
@@ -688,62 +652,3 @@ def export_csv(request):
         writer.writerow(row_data)
 
     return response
-
-
-# from django.shortcuts import render
-# from sklearn.metrics import accuracy_score
-
-# def uji_akurasi(request):
-#     # Memuat data testing dari model DataTesting
-#     testing_data = DataTesting.objects.all()
-    
-#     # Menginisialisasi daftar label aktual dan prediksi
-#     label_aktual = []
-#     label_prediksi = []
-
-#     # Memperoleh label aktual dan prediksi dari data testing
-#     for data_test in testing_data:
-#         label_aktual.append(data_test.peminatan.id_peminatan)
-#         label_prediksi.append(model.predict([[
-#             data_test.Algoritma_dan_Pemrograman,
-#             data_test.Aljabar_Linier_dan_Matriks,
-#             data_test.Fisika_Listrik_dan_Magnet,
-#             data_test.Grafik_Komputer,
-#             data_test.Kalkulus,
-#             data_test.Keamanan_Info_dan_Jaringan,
-#             data_test.Kom_Data_dan_Jaringan_Komputer,
-#             data_test.Logika_Informatika,
-#             data_test.Manajemen_Proyek,
-#             data_test.Matematika_Diskrit,
-#             data_test.Metode_Numerik,
-#             data_test.Multimedia,
-#             data_test.Organisasi_dan_Arsitektur_Komp,
-#             data_test.Pemrograman_Berorientasi_Obyek,
-#             data_test.Pemrograman_Lanjut,
-#             data_test.Pemrograman_Web,
-#             data_test.Pengantar_Kriptografi,
-#             data_test.Prak_Pemrog_Berorient_Obyek,
-#             data_test.Prak_Sistem_Basis_Data,
-#             data_test.Prak_Algoritma_dan_Pemrograman,
-#             data_test.Praktikum_Pemrograman_Lanjut,
-#             data_test.Praktikum_Pemrograman_Web,
-#             data_test.Praktikum_Struktur_Data,
-#             data_test.Rekayasa_Perangkat_Lunak,
-#             data_test.Sistem_Basis_Data,
-#             data_test.Sistem_Digital_dan_Gelombang,
-#             data_test.Sistem_Informasi,
-#             data_test.Sistem_Operasi,
-#             data_test.Statistika_Probabilitas,
-#             data_test.Struktur_Data,
-#             data_test.Teknik_Perancangan_Sistem,
-#             data_test.Teori_Bahasa_Automata_and_Komp,
-#             data_test.Testing_and_Implementation,
-#         ]]))
-
-#     # Menghitung akurasi
-#     akurasi = accuracy_score(label_aktual, label_prediksi)
-#     akurasi_percent = "{:.2%}".format(akurasi)
-
-#     # Menampilkan akurasi dalam template HTML
-#     return render(request, 'knnApp/uji_akurasi.html', {'akurasi_percent': akurasi_percent})
-
